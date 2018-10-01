@@ -6,7 +6,9 @@
 // ----------------------------------------
 
 const connection = require("./connection"),
-{getQuestionMarks} = require("../helpers/query-utility");
+{getQuestionMarks,
+getDoubleQuestionMarks, 
+objectToSql} = require("../helpers/query-utility");
 
 // ORM
 // ----------------------------------------
@@ -23,18 +25,19 @@ orm.selectAll = (table, order, cb) => {
 };
 
 // Insert one
-orm.insertOne = (table, values, cb) => {
-    let query = `INSERT INTO ?? VALUES (${getQuestionMarks(values)})`;
-    connection.query(query, [table, ...values], (err, data) => {
+orm.insertOne = (table, cols, values, cb) => {
+    let query = `INSERT INTO ?? (${getDoubleQuestionMarks(cols)}) `;
+    query += `VALUES (${getQuestionMarks(values)})`;
+    connection.query(query, [table, cols.toString(), values.toString()], (err, data) => {
         if (!err) cb(null, data);
         else cb(err);
     });
 };
 
 // Update one
-orm.updateOne = (table, id, col, val, cb) => {
-    let query = "UPDATE ?? SET ?? = ? WHERE id = ?";
-    connection.query(query, [table, col, val, id], (err, data) => {
+orm.updateOne = (table, id, colsVals, cb) => {
+    let query = `UPDATE ?? SET ${objectToSql(colsVals)} WHERE id = ?`;
+    connection.query(query, [table, id], (err, data) => {
         if (!err) cb(null, data);
         else cb(err);
     });
