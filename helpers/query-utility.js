@@ -5,12 +5,6 @@
 // Functions
 // ----------------------------------------
 
-// Create question marks
-const getQuestionMarks = (items) => items.map((_) => "?").join(", ");
-
-// Create double question marks
-const getDoubleQuestionMarks = (items) => items.map((_) => "??").join(", ");
-
 // Create sql value string
 const objectToSql = (obj) => {
     const sqlPairs = [];
@@ -30,7 +24,5 @@ const objectToSql = (obj) => {
 // ----------------------------------------
 
 module.exports = {
-    getQuestionMarks,
-    getDoubleQuestionMarks,
     objectToSql
 };
