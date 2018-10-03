@@ -10,14 +10,20 @@ const mysql = require("mysql");
 // Connection
 // ----------------------------------------
 
+let connection;
+
 // Create connection
-const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "root",
-    database: "burger_www",
-    socketPath: "/Applications/MAMP/tmp/mysql/mysql.sock"
-});
+if (process.env.JAWSDB_URL) {
+    connection = mysql.createConnection(process.env.JAWSDB_URL);
+} else {
+    connection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "root",
+        database: "burger_www",
+        socketPath: "/Applications/MAMP/tmp/mysql/mysql.sock"
+    });
+}
 
 // Connect to mysql
 connection.connect((err) => {
