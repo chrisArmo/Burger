@@ -12,7 +12,7 @@
                 <div class="card-body">
                     <div class="form-row mb-1 my-md-3">
                         <div class="col-8">
-                            <input type="text" class="form-control" placeholder="Add A Burger">
+                            <input type="text" class="form-control added-burger" placeholder="Add A Burger">
                         </div>
 
                         <div class="col-4 text-right">
@@ -25,43 +25,33 @@
         
         <div class="col-md-7 col-lg-8">
             <h3 class="text-center text-light my-3">Get At This</h3>
-            
-            <ul class="list-group">
-            {{#each burgers}}
-                <li 
-                    class="list-group-item d-flex justify-content-between align-items-center"
-                    data-id="{{id}}">
-                    {{burger_name}}
-                    <span class="badge badge-warning badge-pill btn btn-warning p-2 mx-1 devour">Devour</span>
-                </li>
-            {{/each}}
-            </ul>
-
-            <h3 class="text-center text-light my-3">Devoured That</h3>
-            
-            <ul class="list-group">
-                {{#each devouredBurgers}}
-                <li class="list-group-item d-flex justify-content-between align-items-center" data-id="{{id}}">
-                    {{burger_name}}
-                    <span class="badge badge-warning badge-pill btn btn-warning p-2 mx-1 digest">Digest</span>
-                </li>
+            {{#if burgers}}
+                <ul class="list-group">
+                {{#each burgers}}
+                    <li class="list-group-item d-flex justify-content-between align-items-center burger" data-id="{{id}}">
+                        {{burger_name}}
+                        <span class="badge badge-warning badge-pill btn btn-warning p-2 mx-1 devour">Devour</span>
+                    </li>
                 {{/each}}
-            </ul>
-        </div>
+                </ul>
+            {{else}}
+                <p class="text-center text-warning">No Burgers to Devour</p>
+            {{/if}}            
 
-        <!-- <div class="col-md-4 order-md-2">
             <h3 class="text-center text-light my-3">Devoured That</h3>
             
-            <ul class="list-group">
-            {{#each devouredBurgers}}
-                <li 
-                    class="list-group-item d-flex justify-content-between align-items-center"
-                    data-id="{{id}}">
-                    {{burger_name}}
-                    <span class="badge badge-warning badge-pill btn btn-warning p-2 mx-1 digest">Digest</span>
-                </li>
-            {{/each}}
-            </ul>
-        </div> -->
+            {{#if devouredBurgers}}
+                <ul class="list-group">
+                {{#each devouredBurgers}}
+                    <li class="list-group-item d-flex justify-content-between align-items-center burger" data-id="{{id}}">
+                        {{burger_name}}
+                        <span class="badge badge-warning badge-pill btn btn-warning p-2 mx-1 digest">Digest</span>
+                    </li>
+                {{/each}}
+                </ul>
+            {{else}}
+                <p class="text-center text-warning">There Has Yet to be a Burger Devoured</p>
+            {{/if}}
+        </div>
     </div>
 </div>
