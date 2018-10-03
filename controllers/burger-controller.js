@@ -7,7 +7,13 @@
 
 const burger = require("../models/burger"),
 express = require("express"),
-path = require("path");
+bodyParser = require("body-parser");
+
+// Setup
+// ----------------------------------------
+
+// Url encoded body parser
+const parseUrlEncoded = bodyParser.urlencoded({extended: true});
 
 // Router
 // ----------------------------------------
@@ -23,8 +29,38 @@ router.get("/", (req, res) => {
             if (burger.devoured) devouredBurgers.push(burger);
             else burgers.push(burger);
         });
-        if (!err) res.render("index", {burgers, devouredBurgers});
-        else console.log(err);
+        if (!err) res.render("index", {
+            burgers: burgers.length > 0 ? burgers : false, 
+            devouredBurgers: devouredBurgers.length > 0 ? devouredBurgers : false
+        });
+        else res.status(500);
+    });
+});
+
+// Burger create
+router.post("/burgers", parseUrlEncoded, (req, res) => {
+    burger.insertOne(req.body.burgerName, (err, data) => {
+        if (!err) return res.end();
+        return res.status(500);
+    });
+});
+
+// Burger update
+router.put("/burgers/:id", parseUrlEncoded, (req, res) => {
+    burger.updateOne(
+        req.params.id, {devoured: req.body.devoured},
+        (err, data) => {
+            if (!err) return res.end();
+            return res.status(500);
+        }
+    );
+});
+
+// Burger delete
+router.delete("/burgers/:id", (req, res) => {
+    burger.deleteOne(req.params.id, (err, data) => {
+        if (!err) return res.end();
+        return res.status(500);
     });
 });
 
