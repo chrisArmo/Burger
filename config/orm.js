@@ -6,9 +6,7 @@
 // ----------------------------------------
 
 const connection = require("./connection"),
-{getQuestionMarks,
-getDoubleQuestionMarks, 
-objectToSql} = require("../helpers/query-utility");
+{objectToSql} = require("../helpers/query-utility");
 
 // ORM
 // ----------------------------------------
@@ -25,10 +23,10 @@ orm.selectAll = (table, order, cb) => {
 };
 
 // Insert one
-orm.insertOne = (table, cols, values, cb) => {
-    let query = `INSERT INTO ?? (${getDoubleQuestionMarks(cols)}) `;
-    query += `VALUES (${getQuestionMarks(values)})`;
-    connection.query(query, [table, cols.toString(), values.toString()], (err, data) => {
+orm.insertOne = (table, col, val, cb) => {
+    let query = "INSERT INTO ?? (??) ";
+    query += "VALUES (?)";
+    connection.query(query, [table, col, val], (err, data) => {
         if (!err) cb(null, data);
         else cb(err);
     });
@@ -37,6 +35,15 @@ orm.insertOne = (table, cols, values, cb) => {
 // Update one
 orm.updateOne = (table, id, colsVals, cb) => {
     let query = `UPDATE ?? SET ${objectToSql(colsVals)} WHERE id = ?`;
+    connection.query(query, [table, id], (err, data) => {
+        if (!err) cb(null, data);
+        else cb(err);
+    });
+};
+
+// Delete one
+orm.deleteOne = (table, id, cb) => {
+    let query = "DELETE FROM ?? WHERE id = ?";
     connection.query(query, [table, id], (err, data) => {
         if (!err) cb(null, data);
         else cb(err);
