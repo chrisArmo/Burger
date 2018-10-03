@@ -20,17 +20,25 @@ burger.selectAll = (cb) => {
     });
 };
 
-// Select all burgers
-burger.insertOne = (cols, values, cb) => {
-    orm.insertOne("burger", cols, values, (err, data) => {
+// Insert one burger
+burger.insertOne = (val, cb) => {
+    orm.insertOne("burger", "burger_name", val, (err, data) => {
         if (!err) cb(null, data);
         else cb(err);
     });
 };
 
-// Select all burgers
+// Update one burger
 burger.updateOne = (id, colsVals, cb) => {
     orm.updateOne("burger", id, colsVals, (err, data) => {
+        if (!err) cb(null, data);
+        else cb(err);
+    });
+};
+
+// Delete one burger
+burger.deleteOne = (id, cb) => {
+    orm.deleteOne("burger", id, (err, data) => {
         if (!err) cb(null, data);
         else cb(err);
     });
